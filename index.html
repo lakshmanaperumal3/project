@@ -1,12 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Slideshow</title>
+  <style>
+    /* Slideshow container */
+    .slideshow-container {
+      position: relative;
+      width: 80%;
+      margin: auto;
+      overflow: hidden;
+    }
+
+    /* Slides */
+    .slide {
+      display: none;
+      width: 100%;
+      height: 300px;
+      text-align: center;
+      line-height: 300px;
+      font-size: 24px;
+      color: white;
+    }
+
+    /* Individual slide colors */
+    .slide1 { background-color: #ff5733; }
+    .slide2 { background-color: #33c1ff; }
+    .slide3 { background-color: #85ff33; }
+
+    /* Dots */
+    .dots {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin: 5px;
+      background-color: gray;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background-color: black;
+    }
+  </style>
 </head>
 <body>
-    <h1>hi nana</h1>
-    <img src="picture.jpg">
+
+<div class="slideshow-container">
+  <div class="slide slide1">Slide 1</div>
+  <div class="slide slide2">Slide 2</div>
+  <div class="slide slide3">Slide 3</div>
+</div>
+
+<div class="dots">
+  <span class="dot" onclick="goToSlide(0)"></span>
+  <span class="dot" onclick="goToSlide(1)"></span>
+  <span class="dot" onclick="goToSlide(2)"></span>
+</div>
+
+<script>
+  let currentSlide = 0;
+
+  function showSlide(index) {
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+
+    // Loop through all slides and hide them
+    slides.forEach((slide, i) => {
+      slide.style.display = (i === index) ? 'block' : 'none';
+    });
+
+    // Update dots
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === index);
+    });
+
+    currentSlide = index;
+  }
+
+  function autoSlide() {
+    const slides = document.querySelectorAll('.slide');
+    const nextIndex = (currentSlide + 1) % slides.length;
+    showSlide(nextIndex);
+  }
+
+  function goToSlide(index) {
+    clearInterval(autoSlideshow); // Stops auto slideshow on user click
+    showSlide(index);
+    autoSlideshow = setInterval(autoSlide, 3000); // Restarts auto slideshow
+  }
+
+  // Initialize the slideshow
+  showSlide(currentSlide);
+  let autoSlideshow = setInterval(autoSlide, 3000); // Change slides every 3 seconds
+</script>
+
 </body>
 </html>
